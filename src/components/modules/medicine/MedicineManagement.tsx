@@ -32,6 +32,14 @@ const MedicineManagement = () => {
   }
   const medicines = response?.data;
 
+
+  if (medicines?.length ===0) {
+    return (
+      <h3 className="text-main font-bold text-2xl flex items-center justify-center h-screen">
+        Medicine Not found!
+      </h3>
+    );
+  }
   const onSearch: SearchProps["onSearch"] = (value) => {
     setSearch(value);
   };

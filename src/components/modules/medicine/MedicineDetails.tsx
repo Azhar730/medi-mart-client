@@ -1,13 +1,23 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Loading from "@/components/utils/Loading";
+import { selectCurrentUser } from "@/redux/features/auth/authSlice";
 import { addMedicine } from "@/redux/features/cart/cartSlice";
 import { useGetSingleMedicineQuery } from "@/redux/features/medicine/medicineApi";
-import { useAppDispatch } from "@/redux/hooks";
+import { useCreateReviewMutation } from "@/redux/features/review/reviewApi";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { IMedicine } from "@/types/medicine";
-import { ShoppingCart } from "lucide-react";
+import { Modal } from "antd";
+import { MessageCircle, ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import { useState } from "react";
 import { toast } from "sonner";
+import MediForm from "../form/MediForm";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { reviewValidation } from "./medicineValidation";
+import MediInput from "../form/MediInput";
+import Button from "@/components/utils/Button";
 
 const MedicineDetails = ({ medicineId }: { medicineId: string }) => {
   const {
@@ -16,6 +26,47 @@ const MedicineDetails = ({ medicineId }: { medicineId: string }) => {
     isError,
   } = useGetSingleMedicineQuery(medicineId);
   const dispatch = useAppDispatch();
+  const user = useAppSelector(selectCurrentUser);
+  const [addReview] = useCreateReviewMutation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const showModal = () => {
+    setIsModalOpen(true);
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleSubmit = async (data: any) => {
+    const medicineId = response?._id;
+    const userId = user?.id;
+    const modifiedData = {
+      ...data,
+      medicine: medicineId,
+      user: userId,
+    };
+
+    const toastId = toast.loading("Sending Review...");
+
+    try {
+      const res = await addReview(modifiedData).unwrap();
+      console.log(res);
+      if (res.success) {
+        setIsModalOpen(false);
+        toast.success(res.message, { id: toastId });
+      }
+    } catch (error: any) {
+      toast.error(error?.data?.message || "Something went wrong", {
+        id: toastId,
+      });
+    }
+  };
+
   const handleAddMedicine = (medicine: IMedicine) => {
     dispatch(addMedicine(medicine));
     toast.success("Medicine added to cart");
@@ -47,7 +98,7 @@ const MedicineDetails = ({ medicineId }: { medicineId: string }) => {
   }
 
   return (
-    <div className="max-w-5xl mt-32 md:mt-48 mb-16 md:mb-24 w-[90%] md:w-[88%] mx-auto flex flex-col items-center justify-center">
+    <div className="max-w-5xl bg-gray-300 rounded-md shadow-lg p-4 mt-32 md:mt-48 mb-16 md:mb-24 w-[90%] md:w-[88%] mx-auto flex flex-col items-center justify-center">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Image Section */}
         <div>
@@ -111,6 +162,50 @@ const MedicineDetails = ({ medicineId }: { medicineId: string }) => {
                 <ShoppingCart />
               </span>
               Add to Cart
+            </button>
+            <div>
+              <Modal
+                footer={null}
+                loading={loading}
+                title="Review"
+                open={isModalOpen}
+                onCancel={handleCancel}
+              >
+                <MediForm
+                  className=""
+                  onSubmit={handleSubmit}
+                  resolver={zodResolver(reviewValidation)}
+                >
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <MediInput
+                      placeHolder="Comment"
+                      name={"comment"}
+                      label="Comment"
+                      type="text"
+                    />
+                    <MediInput
+                      placeHolder="Rating"
+                      name={"rating"}
+                      label="Rating"
+                      type="number"
+                    />
+                  </div>
+                  <div className="flex justify-start gap-4">
+                    <Button
+                      isFullWidth={true}
+                      text="Send Review"
+                      type="submit"
+                    />
+                  </div>
+                </MediForm>
+              </Modal>
+            </div>
+
+            <button
+              onClick={showModal}
+              className="border border-teal-400 text-teal-500 cursor-pointer bg-gray-200 p-2 rounded-md hover:bg-gray-300 transition-all duration-300"
+            >
+              <MessageCircle />
             </button>
           </div>
         </div>

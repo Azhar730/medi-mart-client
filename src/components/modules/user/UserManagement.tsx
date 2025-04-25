@@ -3,22 +3,67 @@
 
 import Loading from "@/components/utils/Loading";
 import { cn } from "@/lib/utils";
-import { useUpdateUserRoleMutation, useUpdateUserStatusMutation } from "@/redux/features/auth/authApi";
-import { useDeleteUserMutation, useGetAllUsersQuery } from "@/redux/features/user/userApi";
+import {
+  useUpdateUserRoleMutation,
+  useUpdateUserStatusMutation,
+} from "@/redux/features/auth/authApi";
+import {
+  useDeleteUserMutation,
+  useGetAllUsersQuery,
+} from "@/redux/features/user/userApi";
 
 import { Select } from "antd";
 import { Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import Swal from "sweetalert2";
 
 const UserManagement = () => {
   const { data: response, isLoading, isError } = useGetAllUsersQuery(undefined);
   const [updateUserStatus] = useUpdateUserStatusMutation();
   const [updateUserRole] = useUpdateUserRoleMutation();
   const [deleteUser] = useDeleteUserMutation();
+  // const handleDelete = async (id: string) => {
+  //   await deleteUser(id);
+  //   setTimeout(() => toast.success("User deleted successfully"), 1000);
+  // };
+
   const handleDelete = async (id: string) => {
-    await deleteUser(id);
-    setTimeout(() => toast.success("User deleted successfully"), 1000);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You want to Delete this User?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, Delete!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const toastId = toast.loading("Deleting User...");
+        try {
+          const result = await deleteUser(id).unwrap();
+          if (result?.success) {
+            toast.success(result?.message, { id: toastId });
+          } else {
+            toast.error(result?.message, { id: toastId });
+          }
+        } catch (error: any) {
+          if (error?.status === 401) {
+            toast.error(error?.data?.message, { id: toastId });
+            return;
+          }
+          toast.error(error?.data?.message || "Something went wrong", {
+            id: toastId,
+          });
+        }
+        Swal.fire({
+          title: "Successful!",
+          text: "User have been Deleted.",
+          icon: "success",
+        });
+      }
+    });
   };
+
   const handleChange = async (value: string, id: string) => {
     const toastId = toast.loading("Updating User Status");
     const payload = {

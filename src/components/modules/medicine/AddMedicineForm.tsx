@@ -18,6 +18,7 @@ import MediDatePicker from "../form/MediDatePicker";
 import { useAddMedicineMutation } from "@/redux/features/medicine/medicineApi";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import SectionHead from "@/components/shared/SectionHead";
 
 
 const AddMedicine = () => {
@@ -62,7 +63,11 @@ const AddMedicine = () => {
   }));
 
   return (
-    <div>
+    <div className="bg-gray-200 px-12 py-6">
+      <SectionHead
+      heading="Add Medicine"
+      description=""
+      />
       <MediForm
         onSubmit={handleSubmit}
         resolver={zodResolver(medicineValidation)}
