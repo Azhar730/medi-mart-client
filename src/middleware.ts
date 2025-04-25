@@ -1,0 +1,16 @@
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
+
+export function middleware(req: NextRequest) {
+  // Define the path you want to redirect from
+  if (req.nextUrl.pathname === "/dashboard") {
+    return NextResponse.redirect(new URL("/dashboard/my-profile", req.url));
+  }
+
+  return NextResponse.next(); // Continue processing the request if no redirect is needed
+}
+
+// Define the matcher if you only want this middleware to apply to specific paths
+export const config = {
+  matcher: ["/dashboard/:path*", "/dashboard"],
+};
