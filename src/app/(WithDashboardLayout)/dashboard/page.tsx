@@ -2,43 +2,42 @@ import PrivateRoute from "@/Routes/PrivateRoute";
 import { Users, DollarSign, Package, TrendingUp } from "lucide-react";
 
 const DashboardHome = () => {
-  // Demo data for analytics
   const analyticsData = {
-    totalSales: 1250000,
-    monthlyRevenue: 320000,
-    totalInventory: 45,
-    customerSatisfaction: 4.8,
+    totalSales: 300000, 
+    monthlyRevenue: 85000,
+    totalInventory: 120,
+    customerSatisfaction: 4.9,
   };
 
-  const popularVehicles = [
-    { name: "Trail Blazer", sales: 12, revenue: 600000, trend: "+15%" },
-    { name: "Speed Pro", sales: 8, revenue: 280000, trend: "+8%" },
-    { name: "Eco Urban", sales: 6, revenue: 210000, trend: "+5%" },
+  const topMedicines = [
+    { name: "Napa Extra", sold: 150, revenue: 45000, trend: "+12%" },
+    { name: "Seclo", sold: 120, revenue: 36000, trend: "+9%" },
+    { name: "Ace", sold: 90, revenue: 27000, trend: "+7%" },
   ];
 
-  const recentSales = [
+  const recentOrders = [
     {
       id: 1,
-      customer: "John Smith",
-      bicycle: "Trail Blazer",
-      price: 65000,
-      date: "2024-03-15",
+      customer: "Rahim Uddin",
+      medicine: "Napa Extra",
+      price: 300,
+      date: "2025-04-22",
       status: "Completed",
     },
     {
       id: 2,
-      customer: "Sarah Johnson",
-      bicycle: "Speed Pro",
-      price: 75000,
-      date: "2024-03-14",
+      customer: "Fatema Khatun",
+      medicine: "Seclo",
+      price: 250,
+      date: "2025-04-21",
       status: "Processing",
     },
     {
       id: 3,
-      customer: "Michael Brown",
-      bicycle: "Eco Urban",
-      price: 58000,
-      date: "2024-03-13",
+      customer: "Tanvir Ahmed",
+      medicine: "Ace",
+      price: 180,
+      date: "2025-04-20",
       status: "Completed",
     },
   ];
@@ -51,6 +50,7 @@ const DashboardHome = () => {
       maximumFractionDigits: 0,
     }).format(amount);
   };
+
   return (
     <PrivateRoute>
       <main>
@@ -58,10 +58,10 @@ const DashboardHome = () => {
           {/* Welcome Section */}
           <div className="mb-8">
             <h1 className="text-2xl font-bold text-gray-900">
-              Welcome to Cycle Mart
+              Welcome to MediMart💊 Admin Dashboard
             </h1>
             <p className="text-gray-600">
-              Here is what is happening with your dealership today.
+              Here is an overview of your online pharmacy performance.
             </p>
           </div>
 
@@ -106,10 +106,10 @@ const DashboardHome = () => {
                 </div>
                 <div className="ml-4">
                   <p className="text-sm font-medium text-gray-600">
-                    Total Inventory
+                    Inventory Available
                   </p>
                   <p className="text-xl font-semibold text-gray-900">
-                    {analyticsData.totalInventory} vehicles
+                    {analyticsData.totalInventory} medicines
                   </p>
                 </div>
               </div>
@@ -132,48 +132,42 @@ const DashboardHome = () => {
             </div>
           </div>
 
-          {/* Popular Vehicles */}
+          {/* Top Selling Medicines */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-8">
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h2 className="text-lg font-semibold text-gray-800">
-                  Popular Vehicles
+                  Top Selling Medicines
                 </h2>
               </div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  {popularVehicles.map((vehicle, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between"
-                    >
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {vehicle.name}
-                        </p>
-                        <p className="text-sm text-gray-600">
-                          {vehicle.sales} units sold
-                        </p>
-                      </div>
-                      <div className="text-right">
-                        <p className="font-medium text-gray-900">
-                          {formatCurrency(vehicle.revenue)}
-                        </p>
-                        <p className="text-sm text-green-600">
-                          {vehicle.trend}
-                        </p>
-                      </div>
+              <div className="p-6 space-y-4">
+                {topMedicines.map((med, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between"
+                  >
+                    <div>
+                      <p className="font-medium text-gray-900">{med.name}</p>
+                      <p className="text-sm text-gray-600">
+                        {med.sold} units sold
+                      </p>
                     </div>
-                  ))}
-                </div>
+                    <div className="text-right">
+                      <p className="font-medium text-gray-900">
+                        {formatCurrency(med.revenue)}
+                      </p>
+                      <p className="text-sm text-green-600">{med.trend}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Recent Sales */}
+            {/* Recent Orders */}
             <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
               <div className="px-6 py-4 border-b border-gray-200">
                 <h2 className="text-lg font-semibold text-gray-800">
-                  Recent Sales
+                  Recent Orders
                 </h2>
               </div>
               <div className="overflow-x-auto">
@@ -184,7 +178,7 @@ const DashboardHome = () => {
                         Customer
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Vehicle
+                        Medicine
                       </th>
                       <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                         Price
@@ -195,32 +189,32 @@ const DashboardHome = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {recentSales.map((sale) => (
-                      <tr key={sale.id}>
+                    {recentOrders.map((order) => (
+                      <tr key={order.id}>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {sale.customer}
+                            {order.customer}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {sale.bicycle}
+                            {order.medicine}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <div className="text-sm text-gray-900">
-                            {formatCurrency(sale.price)}
+                            {formatCurrency(order.price)}
                           </div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
                             className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                              sale.status === "Completed"
+                              order.status === "Completed"
                                 ? "bg-green-100 text-green-800"
                                 : "bg-yellow-100 text-yellow-800"
                             }`}
                           >
-                            {sale.status}
+                            {order.status}
                           </span>
                         </td>
                       </tr>
