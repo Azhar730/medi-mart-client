@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# A4 Client
+
+A6 Client is a modern web application built with NextJS, TypeScript, and Vite. It provides a seamless user experience for managing orders, uploading files, and more.
+
+
+
+## Features
+
+- **Order Verification**: Verify orders with detailed information.
+- **File Uploads**: Upload images and PDFs with preview and validation.
+- **Responsive Design**: Fully responsive UI for all devices.
+- **State Management**: Integrated with Redux for state management.
+
+## Tech Stack
+
+- **Frontend**: NextJS, TypeScript, Vite
+- **State Management**: Redux Toolkit
+- **Styling**: Tailwind CSS
+- **Routing**: React Router
+- **Icons**: Lucide React, React Icons
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Ensure you have the following installed:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- [Node.js](https://nodejs.org/) (v16 or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Installation
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Clone the repository:
 
-## Learn More
+   ```bash
+   git clone https://github.com/Azhar730/medi-mart-client.git
+   cd medi-mart-client
+   npm install
+   npm run dev
 
-To learn more about Next.js, take a look at the following resources:
+2. Live Link
+  ```bash
+  https://medimart-nu.vercel.app/
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+3. Admin Login
+  ```bash
+  email: azharmahmud730@gmail.com
+  password: 12345678
