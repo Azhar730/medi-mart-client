@@ -10,7 +10,7 @@ import {
 import { RootState } from "../store";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `${process.env.NEXT_PUBLIC_BASE_API}`,
+  baseUrl: `${process.env.NEXT_PUBLIC_BASE_API}/api`,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).auth.accessToken;

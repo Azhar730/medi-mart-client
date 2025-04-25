@@ -5,6 +5,7 @@ export interface IMedicine  {
     category: string;
     price: number;
     quantity: number;
+    orderQuantity: number;
     requiredPrescription: boolean;
     manufacturer: string;
     expiryDate: Date;
